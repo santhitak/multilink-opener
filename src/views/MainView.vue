@@ -68,7 +68,9 @@ export default defineComponent({
   },
   methods: {
     checkHttps(data) {
-      return data.startsWith("https://") ? true : false;
+      return data.startsWith("https://") || data.startsWith("http://")
+        ? true
+        : false;
     },
   },
 });
