@@ -1,18 +1,18 @@
 <template>
   <div class="ma-lg-14 ma-xs-2 text-center h-screen">
     <div class="d-none d-lg-block d-md-none">
-      <p class="mx-8 mt-8 text-h2 font-weight-bold">Multi-Link Opener</p>
+      <p class="mx-8 mt-8 text-h2 font-weight-bold">MULTILINK OPENER</p>
     </div>
     <div class="d-none d-md-block d-lg-none">
-      <p class="mx-8 mt-8 text-h3 font-weight-bold">Multi-Link Opener</p>
+      <p class="mx-8 mt-8 text-h3 font-weight-bold">MULTILINK OPENER</p>
     </div>
     <div class="d-none d-sm-block d-md-none">
-      <p class="mx-8 mt-8 text-h4 font-weight-bold">Multi-Link Opener</p>
+      <p class="mx-8 mt-8 text-h4 font-weight-bold">MULTILINK OPENER</p>
     </div>
     <div class="d-block d-sm-none">
-      <p class="mx-8 mt-8 text-h4 font-weight-bold">Multi-Link Opener</p>
+      <p class="mx-8 mt-8 text-h4 font-weight-bold">MULTILINK OPENER</p>
     </div>
-    <p class="ma-6 text-subtitle-1 text-orange-darken-2 font-weight-light">
+    <p class="ma-6 text-subtitle-1 font-weight-light">
       A very shorter time to open all your copied links
     </p>
     <div>
@@ -23,17 +23,19 @@
         class="my-8"
       />
     </div>
-    <v-card class="container" v-show="link">
+    <v-card class="container" v-show="link" style="margin-bottom: 4rem">
       <div class="ma-6">
         <v-btn
           class="ma-4"
-          v-for="data in splitLink"
+          v-for="(data, index) in splitLink"
           :key="data"
           :variant="checkHttps(data) ? '' : 'outlined'"
           :class="
             checkHttps(data)
-              ? 'bg-orange-darken-2 text-decoration-none mx-auto w-auto d-block'
-              : ' mx-auto d-block'
+              ? `bg-${
+                  color[index % 5]
+                } text-decoration-none mx-auto w-auto d-block`
+              : 'cursor-normal mx-auto d-block'
           "
           style="max-width: 70%"
         >
@@ -55,10 +57,12 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
+  name: "UsagePage",
   data() {
     return {
       link: "",
       linkCount: 0,
+      color: ["red", "pink", "orange", "blue", "purple"],
     };
   },
   computed: {
@@ -67,7 +71,8 @@ export default defineComponent({
     },
     countLink() {
       for (let i = 0; i < this.splitLink.length; i++) {
-        this.splitLink[i].startsWith("https://")
+        this.splitLink[i].startsWith("https://") ||
+        this.splitLink[i].startsWith("http://")
           ? this.linkCount + 1
           : this.linkCount + 0;
       }
