@@ -67,7 +67,7 @@ export default defineComponent({
   },
   computed: {
     splitLink() {
-      return this.link.split(/\r?\n/);
+      return this.link.trim().split(/\r?\n/);
     },
     countLink() {
       for (let i = 0; i < this.splitLink.length; i++) {
