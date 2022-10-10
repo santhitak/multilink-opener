@@ -28,16 +28,14 @@
         total: {{ counter }} links
       </p>
       <div class="ma-6">
-        <div v-for="(data, index) in splitLink" :key="data">
+        <div v-for="data in splitLink" :key="data">
           <v-btn
             class="ma-4"
-            v-if="data !== ''"
+            v-if="data.replace(/[' ']/gm, '').length !== 0"
             :variant="checkHttps(data) ? '' : 'outlined'"
             :class="
               checkHttps(data)
-                ? `bg-${
-                    color[index % 5]
-                  } text-decoration-none mx-auto w-auto d-block`
+                ? 'bg-black text-decoration-none mx-auto w-auto d-block'
                 : 'cursor-normal mx-auto d-block'
             "
             style="max-width: 70%"
@@ -48,7 +46,7 @@
               class="text-truncate"
               :class="checkHttps(data) ? 'text-white' : 'text-black'"
             >
-              {{ checkHttps(data) ? data : data }}</a
+              {{ checkHttps(data) ? data.replace(/[' ']/gm, '') : data }}</a
             >
           </v-btn>
         </div>
@@ -65,7 +63,6 @@ export default defineComponent({
   data() {
     return {
       link: "",
-      newlink: "",
       linkCount: 0,
       color: ["red", "pink", "orange", "blue", "purple"],
     };
