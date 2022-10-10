@@ -25,11 +25,12 @@
     </div>
     <v-card class="container" v-show="link" style="margin-bottom: 4rem">
       <div class="ma-6">
-        <v-btn
-          class="ma-4"
-          v-for="(data, index) in splitLink"
+        <div v-for="(data, index) in splitLink"
           :key="data"
-          :variant="checkHttps(data) ? '' : 'outlined'"
+          :variant="checkHttps(data) ? '' : 'outlined'">
+          <v-btn
+          class="ma-4"
+          v-if="(data !== '')"
           :class="
             checkHttps(data)
               ? `bg-${
@@ -48,6 +49,8 @@
             {{ checkHttps(data) ? data : data }}</a
           >
         </v-btn>
+        </div>
+        
       </div>
     </v-card>
   </div>
@@ -61,6 +64,7 @@ export default defineComponent({
   data() {
     return {
       link: "",
+      newlink: "",
       linkCount: 0,
       color: ["red", "pink", "orange", "blue", "purple"],
     };
