@@ -24,33 +24,34 @@
       />
     </div>
     <v-card class="container" v-show="link" style="margin-bottom: 4rem">
+      <p class="my-6 text-h6 font-weight-medium text-decoration-underline">
+        total: {{ counter }} links
+      </p>
       <div class="ma-6">
-        <div v-for="(data, index) in splitLink"
-          :key="data"
-          :variant="checkHttps(data) ? '' : 'outlined'">
+        <div v-for="(data, index) in splitLink" :key="data">
           <v-btn
-          class="ma-4"
-          v-if="(data !== '')"
-          :class="
-            checkHttps(data)
-              ? `bg-${
-                  color[index % 5]
-                } text-decoration-none mx-auto w-auto d-block`
-              : 'cursor-normal mx-auto d-block'
-          "
-          style="max-width: 70%"
-        >
-          <a
-            :href="checkHttps(data) ? data : null"
-            target="_blank"
-            class="text-truncate"
-            :class="checkHttps(data) ? 'text-white' : 'text-black'"
+            class="ma-4"
+            v-if="data !== ''"
+            :variant="checkHttps(data) ? '' : 'outlined'"
+            :class="
+              checkHttps(data)
+                ? `bg-${
+                    color[index % 5]
+                  } text-decoration-none mx-auto w-auto d-block`
+                : 'cursor-normal mx-auto d-block'
+            "
+            style="max-width: 70%"
           >
-            {{ checkHttps(data) ? data : data }}</a
-          >
-        </v-btn>
+            <a
+              :href="checkHttps(data) ? data : null"
+              target="_blank"
+              class="text-truncate"
+              :class="checkHttps(data) ? 'text-white' : 'text-black'"
+            >
+              {{ checkHttps(data) ? data : data }}</a
+            >
+          </v-btn>
         </div>
-        
       </div>
     </v-card>
   </div>
@@ -73,13 +74,13 @@ export default defineComponent({
     splitLink() {
       return this.link.trim().split(/\r?\n/);
     },
-    countLink() {
-      for (let i = 0; i < this.splitLink.length; i++) {
-        this.splitLink[i].startsWith("https://") ||
-        this.splitLink[i].startsWith("http://")
-          ? this.linkCount + 1
-          : this.linkCount + 0;
-      }
+    counter() {
+      this.setZero();
+      this.splitLink.forEach((e) => {
+        if (e.startsWith("https://") || e.startsWith("http://")) {
+          this.linkCount += 1;
+        }
+      });
       return this.linkCount;
     },
   },
@@ -88,6 +89,9 @@ export default defineComponent({
       return data.startsWith("https://") || data.startsWith("http://")
         ? true
         : false;
+    },
+    setZero() {
+      return (this.linkCount = 0);
     },
   },
 });
